@@ -10,6 +10,7 @@ import (
 	"errors"
 	"fmt"
 	"io"
+	"reflect"
 )
 
 // PublicKey is a generic interface for a Public Key.
@@ -69,6 +70,8 @@ type PrivateKey interface {
 // *ecdsa.PublicKey or *rsa.PublicKey. Returns a non-nil error when the given
 // key is of an unsupported type.
 func FromCryptoPublicKey(cryptoPublicKey crypto.PublicKey) (PublicKey, error) {
+	fmt.Println("cryptoPublicKey is a", reflect.TypeOf(cryptoPublicKey))
+
 	switch cryptoPublicKey := cryptoPublicKey.(type) {
 	case *ecdsa.PublicKey:
 		return fromECPublicKey(cryptoPublicKey)

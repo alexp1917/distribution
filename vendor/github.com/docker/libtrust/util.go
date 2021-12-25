@@ -177,16 +177,21 @@ func joseBase64UrlDecode(s string) ([]byte, error) {
 }
 
 func keyIDEncode(b []byte) string {
+	fmt.Println("util go line 180: b", b)
+	fmt.Println("base32.StdEncoding.EncodeToString(b)", base32.StdEncoding.EncodeToString(b))
+
 	s := strings.TrimRight(base32.StdEncoding.EncodeToString(b), "=")
 	var buf bytes.Buffer
 	var i int
 	for i = 0; i < len(s)/4-1; i++ {
 		start := i * 4
 		end := start + 4
+		// fmt.Println("haha okay", i, buf.String(), s[start:end])
 		buf.WriteString(s[start:end] + ":")
 	}
 	buf.WriteString(s[i*4:])
-	return buf.String()
+	var retVal = buf.String()
+	return retVal
 }
 
 func keyIDFromCryptoKey(pubKey PublicKey) string {
@@ -196,6 +201,9 @@ func keyIDFromCryptoKey(pubKey PublicKey) string {
 	// Then truncated to 240 bits and encoded into 12 base32 groups like so:
 	//   ABCD:EFGH:IJKL:MNOP:QRST:UVWX:YZ23:4567:ABCD:EFGH:IJKL:MNOP
 	derBytes, err := x509.MarshalPKIXPublicKey(pubKey.CryptoPublicKey())
+
+	fmt.Println("derBytes", derBytes)
+
 	if err != nil {
 		return ""
 	}

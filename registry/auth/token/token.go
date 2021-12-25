@@ -210,6 +210,7 @@ func (t *Token) VerifySigningKey(verifyOpts VerifyOptions) (signingKey libtrust.
 	case len(keyID) > 0:
 		signingKey = verifyOpts.TrustedKeys[keyID]
 		if signingKey == nil {
+                        fmt.Println("map: ", verifyOpts.TrustedKeys);
 			err = fmt.Errorf("token signed by untrusted key with ID: %q", keyID)
 		}
 	default:

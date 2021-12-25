@@ -30,12 +30,17 @@ type ecPublicKey struct {
 func fromECPublicKey(cryptoPublicKey *ecdsa.PublicKey) (*ecPublicKey, error) {
 	curve := cryptoPublicKey.Curve
 
+	fmt.Println("curve.Params", curve.Params())
+
 	switch {
 	case curve == elliptic.P256():
+		fmt.Println("returning P-256 (/home/toor/distribution/vendor/github.com/docker/libtrust/ec_key.go 37)")
 		return &ecPublicKey{cryptoPublicKey, "P-256", es256, map[string]interface{}{}}, nil
 	case curve == elliptic.P384():
+		fmt.Println("returning P-384 (/home/toor/distribution/vendor/github.com/docker/libtrust/ec_key.go 40)")
 		return &ecPublicKey{cryptoPublicKey, "P-384", es384, map[string]interface{}{}}, nil
 	case curve == elliptic.P521():
+		fmt.Println("returning P-521 (/home/toor/distribution/vendor/github.com/docker/libtrust/ec_key.go 43)")
 		return &ecPublicKey{cryptoPublicKey, "P-521", es512, map[string]interface{}{}}, nil
 	default:
 		return nil, errors.New("unsupported elliptic curve")
